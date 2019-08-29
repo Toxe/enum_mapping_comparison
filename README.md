@@ -6,6 +6,7 @@ Comparison of different methods of mapping one enum to another to find opposite 
 
 - **If:** Simple if-else statements.
 - **Switch:** Switch statement.
+- **Array:** Picking value from a static array.
 - **Do Nothing:** Control function that does nothing other than returning the passed argument.
 
 ```
