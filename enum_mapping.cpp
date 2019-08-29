@@ -65,6 +65,13 @@ Direction opposite_direction_with_switch(const Direction dir)
     }
 }
 
+Direction opposite_direction_with_array(const Direction dir)
+{
+    static const Direction opposite_directions[8] = { Direction::South, Direction::Southwest, Direction::West, Direction::Northwest, Direction::North, Direction::Northeast, Direction::East, Direction::Southeast };
+
+    return opposite_directions[static_cast<int>(dir)];
+}
+
 Direction do_nothing(const Direction dir)
 {
     return dir;
@@ -88,5 +95,6 @@ const std::vector<Direction> random_directions{generate_randomized_directions()}
 BENCHMARK_CAPTURE(BM_Opposite_Direction, Do_Nothing, random_directions, do_nothing);
 BENCHMARK_CAPTURE(BM_Opposite_Direction, If,         random_directions, opposite_direction_with_if);
 BENCHMARK_CAPTURE(BM_Opposite_Direction, Switch,     random_directions, opposite_direction_with_switch);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Array,      random_directions, opposite_direction_with_array);
 
 BENCHMARK_MAIN();
