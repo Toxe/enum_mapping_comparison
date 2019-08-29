@@ -154,14 +154,18 @@ Direction do_nothing(const Direction)
 
 static void BM_Opposite_Direction(benchmark::State& state, const std::vector<Direction>& directions, Direction opposite_direction(Direction dir))
 {
-    Direction opp_dir;
+    int sum;
 
-    for (auto _ : state)
-        for (auto dir : directions)
-            opp_dir = opposite_direction(dir);
+    for (auto _ : state) {
+        sum = 0;
 
-    benchmark::DoNotOptimize(opp_dir);
+        for (auto dir : directions) {
+            Direction opp_dir = opposite_direction(dir);
+            sum += static_cast<int>(opp_dir);
+        }
+    }
 
+    state.counters["sum"] = sum;
     state.SetItemsProcessed(static_cast<int64_t>(directions.size()) * static_cast<int64_t>(state.iterations()));
 }
 
