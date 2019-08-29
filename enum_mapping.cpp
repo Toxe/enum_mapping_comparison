@@ -15,6 +15,22 @@ enum class Direction {
     Northwest
 };
 
+std::vector<Direction> generate_randomized_directions()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 7);
+
+    gen.seed(0);
+
+    std::vector<Direction> directions;
+
+    for (int i = 0; i < 100; ++i)
+        directions.push_back(static_cast<Direction>(dis(gen)));
+
+    return directions;
+}
+
 Direction opposite_direction_with_if(const Direction dir)
 {
     if (dir == Direction::North)
@@ -49,47 +65,28 @@ Direction opposite_direction_with_switch(const Direction dir)
     }
 }
 
-std::vector<Direction> generate_randomized_directions()
+Direction do_nothing(const Direction dir)
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 7);
-
-    gen.seed(0);
-
-    std::vector<Direction> directions;
-
-    for (int i = 0; i < 100; ++i)
-        directions.push_back(static_cast<Direction>(dis(gen)));
-
-    return directions;
+    return dir;
 }
 
-static void BM_Opposite_Direction_With_If(benchmark::State& state)
+static void BM_Opposite_Direction(benchmark::State& state, const std::vector<Direction>& directions, Direction opposite_direction(Direction dir))
 {
-    std::vector<Direction> directions{generate_randomized_directions()};
     Direction opp_dir;
 
     for (auto _ : state)
         for (auto dir : directions)
-            opp_dir = opposite_direction_with_if(dir);
+            opp_dir = opposite_direction(dir);
 
     benchmark::DoNotOptimize(opp_dir);
+
+    state.SetItemsProcessed(static_cast<int64_t>(directions.size()) * static_cast<int64_t>(state.iterations()));
 }
 
-static void BM_Opposite_Direction_With_Switch(benchmark::State& state)
-{
-    std::vector<Direction> directions{generate_randomized_directions()};
-    Direction opp_dir;
+const std::vector<Direction> random_directions{generate_randomized_directions()};
 
-    for (auto _ : state)
-        for (auto dir : directions)
-            opp_dir = opposite_direction_with_switch(dir);
-
-    benchmark::DoNotOptimize(opp_dir);
-}
-
-BENCHMARK(BM_Opposite_Direction_With_If);
-BENCHMARK(BM_Opposite_Direction_With_Switch);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Do_Nothing, random_directions, do_nothing);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, If,         random_directions, opposite_direction_with_if);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Switch,     random_directions, opposite_direction_with_switch);
 
 BENCHMARK_MAIN();
