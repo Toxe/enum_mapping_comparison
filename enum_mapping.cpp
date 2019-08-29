@@ -67,7 +67,16 @@ Direction opposite_direction_with_switch(const Direction dir)
 
 Direction opposite_direction_with_array(const Direction dir)
 {
-    static const Direction opposite_directions[8] = { Direction::South, Direction::Southwest, Direction::West, Direction::Northwest, Direction::North, Direction::Northeast, Direction::East, Direction::Southeast };
+    static const Direction opposite_directions[8] = {
+        Direction::South,
+        Direction::Southwest,
+        Direction::West,
+        Direction::Northwest,
+        Direction::North,
+        Direction::Northeast,
+        Direction::East,
+        Direction::Southeast
+    };
 
     return opposite_directions[static_cast<int>(dir)];
 }
