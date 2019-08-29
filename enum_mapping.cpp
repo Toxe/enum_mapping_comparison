@@ -3,6 +3,7 @@
 #include <map>
 #include <random>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 enum class Direction {
@@ -114,6 +115,38 @@ Direction opposite_direction_with_map_find(const Direction dir)
     return map_for_find.find(dir)->second;
 }
 
+std::unordered_map<Direction, Direction> unordered_map_for_index{
+    {Direction::North,     Direction::South},
+    {Direction::Northeast, Direction::Southwest},
+    {Direction::East,      Direction::West},
+    {Direction::Southeast, Direction::Northwest},
+    {Direction::South,     Direction::North},
+    {Direction::Southwest, Direction::Northeast},
+    {Direction::West,      Direction::East},
+    {Direction::Northwest, Direction::Southeast}
+};
+
+const std::unordered_map<Direction, Direction> unordered_map_for_find{
+    {Direction::North,     Direction::South},
+    {Direction::Northeast, Direction::Southwest},
+    {Direction::East,      Direction::West},
+    {Direction::Southeast, Direction::Northwest},
+    {Direction::South,     Direction::North},
+    {Direction::Southwest, Direction::Northeast},
+    {Direction::West,      Direction::East},
+    {Direction::Northwest, Direction::Southeast}
+};
+
+Direction opposite_direction_with_unordered_map_index(const Direction dir)
+{
+    return unordered_map_for_index[dir];
+}
+
+Direction opposite_direction_with_unordered_map_find(const Direction dir)
+{
+    return unordered_map_for_find.find(dir)->second;
+}
+
 Direction do_nothing(const Direction dir)
 {
     return dir;
@@ -134,11 +167,13 @@ static void BM_Opposite_Direction(benchmark::State& state, const std::vector<Dir
 
 const std::vector<Direction> random_directions{generate_randomized_directions()};
 
-BENCHMARK_CAPTURE(BM_Opposite_Direction, Do_Nothing, random_directions, do_nothing);
-BENCHMARK_CAPTURE(BM_Opposite_Direction, If,         random_directions, opposite_direction_with_if);
-BENCHMARK_CAPTURE(BM_Opposite_Direction, Switch,     random_directions, opposite_direction_with_switch);
-BENCHMARK_CAPTURE(BM_Opposite_Direction, Array,      random_directions, opposite_direction_with_array);
-BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Index,  random_directions, opposite_direction_with_map_index);
-BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Find,   random_directions, opposite_direction_with_map_find);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Do_Nothing,          random_directions, do_nothing);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, If,                  random_directions, opposite_direction_with_if);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Switch,              random_directions, opposite_direction_with_switch);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Array,               random_directions, opposite_direction_with_array);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Index,           random_directions, opposite_direction_with_map_index);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Find,            random_directions, opposite_direction_with_map_find);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Unordered_Map_Index, random_directions, opposite_direction_with_unordered_map_index);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Unordered_Map_Find,  random_directions, opposite_direction_with_unordered_map_find);
 
 BENCHMARK_MAIN();
