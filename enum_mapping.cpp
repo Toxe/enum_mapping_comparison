@@ -147,9 +147,9 @@ Direction opposite_direction_with_unordered_map_find(const Direction dir)
     return unordered_map_for_find.find(dir)->second;
 }
 
-Direction do_nothing(const Direction dir)
+Direction do_nothing(const Direction)
 {
-    return dir;
+    return Direction::North;
 }
 
 static void BM_Opposite_Direction(benchmark::State& state, const std::vector<Direction>& directions, Direction opposite_direction(Direction dir))
