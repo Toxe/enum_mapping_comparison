@@ -147,6 +147,16 @@ Direction opposite_direction_with_unordered_map_find(const Direction dir)
     return unordered_map_for_find.find(dir)->second;
 }
 
+Direction opposite_direction_with_calculation(const Direction dir)
+{
+    int n = static_cast<int>(dir) + 4;
+
+    if (n > 7)
+        n -= 8;
+
+    return static_cast<Direction>(n);
+}
+
 Direction do_nothing(const Direction)
 {
     return Direction::North;
@@ -179,5 +189,6 @@ BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Index,           random_directions,
 BENCHMARK_CAPTURE(BM_Opposite_Direction, Map_Find,            random_directions, opposite_direction_with_map_find);
 BENCHMARK_CAPTURE(BM_Opposite_Direction, Unordered_Map_Index, random_directions, opposite_direction_with_unordered_map_index);
 BENCHMARK_CAPTURE(BM_Opposite_Direction, Unordered_Map_Find,  random_directions, opposite_direction_with_unordered_map_find);
+BENCHMARK_CAPTURE(BM_Opposite_Direction, Calculation,         random_directions, opposite_direction_with_calculation);
 
 BENCHMARK_MAIN();
