@@ -1,8 +1,10 @@
 # Enum Mapping Comparison
 
-Comparison of different methods of mapping simple, ordered enum values to another to find opposite directions. Some of these methods only work because the enum is ordered and/or "symmetric".
+Comparison of different methods of mapping simple, ordered enum values to find opposite directions. Some of these methods only work because the enum is ordered and/or "symmetric".
 
-**Dependencies:** Google Benchmark.
+The benchmark loop is calculating the sum of the enum integer values a) as a very simple way to check correctness of each mapping function and b) to force the compiler not to optimize the function calls or return values away.
+
+**Dependencies:** [Google Benchmark](https://github.com/google/benchmark).
 
 ## Methods
 
