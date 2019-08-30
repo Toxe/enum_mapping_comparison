@@ -1,6 +1,8 @@
 # Enum Mapping Comparison
 
-Comparison of different methods of mapping one enum to another to find opposite directions.
+Comparison of different methods of mapping simple, ordered enum values to another to find opposite directions.
+
+**Dependencies:** Google Benchmark.
 
 ## Methods
 
