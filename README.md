@@ -1,6 +1,6 @@
 # Enum Mapping Comparison
 
-Comparison of different methods of mapping simple, ordered enum values to another to find opposite directions.
+Comparison of different methods of mapping simple, ordered enum values to another to find opposite directions. Some of these methods only work because the enum is ordered and/or "symmetric".
 
 **Dependencies:** Google Benchmark.
 
@@ -11,7 +11,7 @@ Comparison of different methods of mapping simple, ordered enum values to anothe
 - **Array:** Picking value from a static array.
 - **Map:** Using a `std::map`, with `operator[]` and `find()`.
 - **Unordered Map:** The same as "Map" but using a `std::unordered_map` instead.
-- **Calculation:** Cast between int and enum and alculate the new value.
+- **Calculation:** Cast between int and enum and calculate the new value.
 - **Do Nothing:** Control function that does nothing other than always returning `Direction::North`.
 
 ```
